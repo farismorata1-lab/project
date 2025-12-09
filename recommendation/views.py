@@ -339,6 +339,15 @@ def add_favorite(request, destination):
     # العودة لنفس صفحة التفاصيل
     return redirect("place_detail", place_id=place.id)
 
+def remove_favorite(request, place_id):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    Favorite.objects.filter(user=request.user, place_id=place_id).delete()
+
+    return redirect("profile")
+
+
 @login_required
 def favorites_page(request):
     favs = Favorite.objects.filter(user=request.user).order_by("-added_at")
