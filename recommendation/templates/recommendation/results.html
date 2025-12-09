@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>نتائج البحث – نظام التوصية السياحي</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") no-repeat center center/cover;
+            min-height: 100vh;
+        }
+
+        /* غطاء زجاجي فوق الخلفية */
+        .glass-layer {
+            background: rgba(255, 255, 255, 0.60);
+            backdrop-filter: blur(8px);
+            min-height: 100vh;
+            padding: 40px 0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #002855;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        /* ======= بطاقة النتيجة ======= */
+        .result-card {
+            display: flex;
+            gap: 20px;
+            background: #ffffffee;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 28px;
+            padding: 18px;
+            transition: transform .25s ease, box-shadow .25s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 22px rgba(0,0,0,0.15);
+        }
+
+        .result-image {
+            width: 280px;
+            height: 200px;
+            border-radius: 14px;
+            object-fit: cover;
+        }
+
+        .info {
+            flex: 1;
+        }
+
+        .info h2 {
+            margin: 0 0 10px 0;
+            font-size: 25px;
+            font-weight: 700;
+            color: #00509d;
+        }
+
+        .info-line {
+            margin: 6px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .desc {
+            margin-top: 10px;
+            line-height: 1.7;
+            color: #444;
+        }
+
+        .weather-box {
+            margin-top: 12px;
+            background: #e8f3ff;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #003566;
+        }
+
+        .score {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 7px 14px;
+            background: #002855;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .fav-btn {
+            background: #ff3b3b;
+            padding: 9px 14px;
+            border-radius: 10px;
+            color: white;
+            border: none;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: .2s ease;
+        }
+
+        .fav-btn:hover {
+            transform: scale(1.05);
+            background: #d62828;
+        }
+
+        .fav-alert {
+            background: #fff3cd;
+            color: #856404;
+            padding: 10px 12px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        /* زر رجوع */
+        .back-btn {
+            display: block;
+            width: 240px;
+            margin: 40px auto 0;
+            padding: 14px;
+            text-align: center;
+            background: #023e8a;
+            color: white;
+            border-radius: 12px;
+            font-size: 18px;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: #001d73;
+        }
+
+        .message {
+            background: #ffdddd;
+            padding: 15px;
+            border-radius: 10px;
+            color: #b30000;
+            text-align: center;
+            font-size: 17px;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="glass-layer">
+    <div class="container">
+
+        <h1>🔍 نتائج البحث</h1>
+
+        {% if message %}
+        <div class="message">{{ message }}</div>
+        {% endif %}
+
+        {% if results %}
+            {% for r in results %}
+                <div class="result-card">
+
+                    <img src="{{ r.image_url }}" class="result-image">
+
+                    <div class="info">
+
+                        <h2>{{ r.name }}</h2>
+
+                        <div class="info-line">🌍 <strong>الدولة:</strong> {{ r.country }}</div>
+                        <div class="info-line">🏙️ <strong>المدينة:</strong> {{ r.city }}</div>
+                        <div class="info-line">🏷️ <strong>التصنيف:</strong> {{ r.category }}</div>
+                        <div class="info-line">⭐ <strong>التقييم:</strong> {{ r.rating }}</div>
+
+                        <div class="desc"><strong>الوصف:</strong> {{ r.description }}</div>
+
+                        {% if r.weather %}
+                        <div class="weather-box">
+                            <img src="https://openweathermap.org/img/wn/{{ r.weather.icon }}.png" width="45">
+                            🌡 {{ r.weather.temperature }}°C — {{ r.weather.description }}
+                        </div>
+                        {% endif %}
+
+                        <div class="score">نسبة التشابه: {{ r.score|floatformat:2 }}</div>
+
+                        {% if user.is_authenticated %}
+                        <form action="{% url 'add_favorite' r.name %}" method="POST">
+                            {% csrf_token %}
+                            <button class="fav-btn">❤️ أضف إلى المفضلة</button>
+                        </form>
+                        {% else %}
+                        <div class="fav-alert">
+                            يجب تسجيل الدخول لإضافة المفضلة ⭐
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <a href="/" class="back-btn">🏠 العودة للرئيسية</a>
+
+    </div>
+</div>
+
+</body>
+</html>
