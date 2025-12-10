@@ -12,7 +12,7 @@ from functools import lru_cache
 from sklearn.metrics.pairwise import cosine_similarity
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import Favorite, Rating
+from .models import Favorite, UserRating, Place
 from .forms import RegisterForm
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
@@ -21,6 +21,9 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.shortcuts import redirect, get_object_or_404
 from .models import Favorite, Place
+from django.http import HttpResponse
+from recommendation.collaborative_filtering import build_user_item_matrix
+from .collaborative_filtering import build_user_item_matrix, recommend_for_user
 
 
 
@@ -124,27 +127,22 @@ def search(request):
 
     # بحث أولي عميق (initial_k = 200)
     initial_k = 200
-    # تأكد k لا يتجاوز ntotal
     k = min(initial_k, max(1, index.ntotal))
     D, I = index.search(embedding, k)
 
-    # نحصل على التضمينات الحقيقية للمرشحين حسب الفهارس
-    # I[0] يحتوي على مؤشرات داخل المصفوفة emb_matrix
+    # استخراج مؤشرات المرشحين
     candidate_idxs = I[0].tolist()
     candidate_embeds = emb_matrix[candidate_idxs]
 
-    # حساب cosine similarities
+    # حساب cosine similarity
     cosine_scores = cosine_similarity(embedding, candidate_embeds)[0]
 
-    # استخراج الدولة من النص (لو عندك دالة إضافية في utils)
+    # استخراج الدولة من نص البحث
     ar_country, en_country = extract_country_from_input(query)
 
-    # فلترة متقدمة مشابهة لـ Flask
     results = []
-    # threshold دقيق زي Flask
     similarity_threshold = 0.30
 
-    # (اختياري) خريطة مرادفات للأنشطة - يمكن استخدامه لاحقاً لو أردت فلترة activity
     activity_synonyms = {
         "historical": ["historical", "history", "تاريخ", "تاريخي"],
         "nature": ["nature", "natural", "طبيعة"],
@@ -159,12 +157,11 @@ def search(request):
         if sim < similarity_threshold:
             continue
 
-        item = data[idx]  # dict
-        # استخراج حقل الدولة/الفئة بحذر (دعم تنسيقات مختلفة)
+        item = data[idx]
         row_country = str(item.get("country") or item.get("Country") or "").lower()
         row_category = str(item.get("category") or item.get("Category") or "").lower()
 
-        # لو الاستخراج رجع دولة، نطابقها
+        # فلترة الدولة
         if ar_country or en_country:
             country_ok = False
             for c in [ar_country, en_country]:
@@ -174,23 +171,25 @@ def search(request):
             if not country_ok:
                 continue
 
-        # إذا أردت إضافة فلترة activity من request:
+        # فلترة النشاط
         activity_filter = request.GET.get("activity", "").strip().lower()
         if activity_filter and activity_filter != "any":
             possible_synonyms = activity_synonyms.get(activity_filter, [activity_filter])
             matched_activity = False
+
             for syn in possible_synonyms:
                 if syn in row_category:
                     matched_activity = True
                     break
+
             if not matched_activity:
-                # لو الكلمة موجودة في الاستعلام نعتبرها match (سلوك Flask القديم)
                 if any(word in query.lower() for word in possible_synonyms):
                     matched_activity = True
+
             if not matched_activity:
                 continue
 
-        # بناء النتيجة بصيغة متوافقة مع القالب
+        # استخراج البيانات
         name = item.get("destination") or item.get("Destination") or item.get("name") or item.get("Name") or ""
         city = item.get("city") or item.get("City") or item.get("CityName") or ""
         country = item.get("country") or item.get("Country") or ""
@@ -198,6 +197,11 @@ def search(request):
         rating = item.get("rating") or item.get("Rating") or 0.0
         description = (item.get("semantic_description_ar") if is_ar else item.get("semantic_description")) or ""
 
+        # ✨ إضافة ربط النتيجة بقاعدة البيانات
+        place = Place.objects.filter(name__iexact=name).first()
+        place_id = place.id if place else None
+
+        # إضافة النتيجة للواجهة
         results.append({
             "name": name,
             "city": city,
@@ -205,7 +209,8 @@ def search(request):
             "category": category,
             "rating": rating,
             "description": description,
-            "score": sim
+            "score": sim,
+            "place_id": place_id
         })
 
     if not results:
@@ -214,22 +219,14 @@ def search(request):
     # ترتيب نهائي
     results.sort(key=lambda x: x["score"], reverse=True)
 
-    # جلب الصور والطقس (خفيف، ويمكن تحسينه بكاش أكبر)
+    # إضافة الصور والطقس
     for item in results:
         img_query = f"{item['name']} {item['city']} {item['country']}".strip()
         item["image_url"] = get_image_url(img_query)
         item["weather"] = get_weather(item["city"])
 
-    # إن أردت إعادة الترتيب باستخدام LTR أو دمج collaborative — ضع هنا نداءات compute_ltr_scores() أو recommend_collaborative()
-    # مثال (إن وُجدت الدوال): 
-    # try:
-    #     config = load_ltr_config()
-    #     results = compute_ltr_scores(results, config)
-    # except Exception as e:
-    #     # لو فشل، استمر مع النتائج الحالية
-    #     pass
-
     return render(request, "recommendation/results.html", {"results": results})
+
 
 
 def register(request):
@@ -301,9 +298,20 @@ def place_detail(request, place_id):
             "message": "المكان غير موجود"
         })
 
+    # صور إضافية (من العمود extra_images) لو موجودة
+    extra_images = []
+    if place.extra_images:
+        extra_images = place.extra_images.split(",")  # لو مخزنة كسلسلة
+
+    # أماكن مشابهة (حسب التصنيف)
+    similar_places = Place.objects.filter(category=place.category).exclude(id=place_id)[:4]
+
     return render(request, "recommendation/place_detail.html", {
-        "place": place
+        "place": place,
+        "similar": similar_places,
+        "extra_images": extra_images
     })
+
 
 def profile_view(request):
     user = request.user  # المستخدم الحالي
@@ -346,6 +354,19 @@ def remove_favorite(request, place_id):
     Favorite.objects.filter(user=request.user, place_id=place_id).delete()
 
     return redirect("profile")
+
+def test_collab_matrix(request):
+    matrix = build_user_item_matrix()
+    print("User-Item Matrix:")
+    print(matrix)
+    return HttpResponse("Matrix printed in terminal!")
+
+def test_collab_recommend(request, user_id):
+    results = recommend_for_user(user_id)
+    print(f"Recommendations for user {user_id}:")
+    for p in results:
+        print(p.name)
+    return HttpResponse(f"Done! Check terminal for results of user {user_id}.")
 
 
 @login_required

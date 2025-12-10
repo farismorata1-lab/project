@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+#from .views import test_matrix
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -17,5 +18,6 @@ urlpatterns = [
     path('result/<int:place_id>/', views.place_detail, name='place_detail'),
     path("profile/", views.profile_view, name="profile"),
     path("favorite/remove/<int:place_id>/", views.remove_favorite, name="remove_favorite"),
+    #path("test-matrix/", test_matrix, name="test_matrix"),
 
 ]

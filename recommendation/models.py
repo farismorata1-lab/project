@@ -1,27 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-
-class Favorite(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    destination = models.CharField(max_length=255)
-    city = models.CharField(max_length=255, blank=True)
-    country = models.CharField(max_length=255, blank=True)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.user.username} → {self.destination}"
-
-
-class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    destination = models.CharField(max_length=255)
-    rating = models.IntegerField(default=0)  # 1 → 5
-    rated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.destination} → {self.rating}⭐"
-
+from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Place(models.Model):
     # البيانات الأساسية
@@ -30,7 +9,7 @@ class Place(models.Model):
     country = models.CharField(max_length=255, blank=True)
     continent = models.CharField(max_length=255, blank=True)
     category = models.CharField(max_length=255, blank=True)
-    rating = models.FloatField(default=0)
+    rating = models.FloatField(default=0.0)
 
     # وصف ومعلومات إضافية
     interests = models.CharField(max_length=500, blank=True)
@@ -51,4 +30,53 @@ class Place(models.Model):
     semantic_description_ar = models.TextField(blank=True)
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.city}, {self.country})"
+
+
+class UserRating(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="ratings"
+    )
+    place = models.ForeignKey(
+        Place,
+        on_delete=models.CASCADE,
+        related_name="user_ratings"
+    )
+    rating = models.FloatField(
+        validators=[MinValueValidator(1.0), MaxValueValidator(5.0)]
+    )  # يدعم أنصاف الدرجات
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "place")
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user} → {self.place.name}: {self.rating}"
+
+
+class Favorite(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="favorites"
+    )
+    place = models.ForeignKey(
+        Place,
+        on_delete=models.CASCADE,
+        related_name="favorited_by",
+        null=True,      # ← السطر المطلوب
+        blank=True
+    )
+
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "place")
+        ordering = ["-added_at"]
+
+    def __str__(self):
+        return f"{self.user} ♥ {self.place.name}"
+
