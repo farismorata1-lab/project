@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>نتائج البحث</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Cairo", sans-serif;
+            background: #f5f7fa;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 30px 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #003566;
+        }
+
+        .card-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .result-card {
+            display: flex;
+            gap: 20px;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            padding: 18px;
+            transition: transform .25s ease, box-shadow .25s ease;
+            cursor: pointer;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 22px rgba(0,0,0,0.15);
+        }
+
+        .result-image {
+            width: 280px;
+            height: 200px;
+            border-radius: 14px;
+            object-fit: cover;
+        }
+
+        .info h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            color: #00509d;
+        }
+
+        .info-line {
+            margin: 6px 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .desc {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #444;
+        }
+
+        .score {
+            margin-top: 12px;
+            display: inline-block;
+            padding: 6px 12px;
+            background: #003566;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        /* الرابط نفسه */
+/* الرابط الذي يلف الكرت */
+.card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    position: relative;
+    z-index: 20;          /* أعلى من أي overlay */
+    pointer-events: auto;
+}
+
+/* الكرت نفسه */
+.result-card {
+    position: relative;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* أي طبقة زجاجية أو خلفية */
+.glass-layer {
+    pointer-events: none;   /* مهم جدًا */
+}
+
+/* الكونتينر ما يمنع الضغط */
+.container {
+    pointer-events: auto;
+}
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔍 نتائج البحث</h1>
+
+    {% for r in results %}
+
+      
+    {% if r.place_id %}
+      <a href="{% url 'place_detail' r.place_id %}" class="card-link">
+    {% else %}
+      <div class="card-link disabled">
+    {% endif %}
+  
+      <div class="result-card">
+  
+        {% if item.image_url %}
+        <img src="{{ item.image_url }}" alt="{{ item.name }}">
+      {% endif %}
+      
+      
+      
+  
+        <div class="info">
+          <h2>{{ r.name }}</h2>
+  
+          <div class="info-line">🌍 {{ r.country }}</div>
+          <div class="info-line">🏙️ {{ r.city }}</div>
+          <div class="info-line">🏷️ {{ r.category }}</div>
+          <div class="info-line">⭐ {{ r.rating }}</div>
+  
+          <div class="desc">
+            {{ r.description|slice:":120" }}...
+          </div>
+        </div>
+  
+      </div>
+  
+    {% if r.place_id %}
+      </a>
+    {% else %}
+      </div>
+    {% endif %}
+  
+  {% endfor %}
+  
+  
+    
+
+
+</div>
+
+</body>
+</html>

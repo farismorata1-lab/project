@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الملف الشخصي</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(to bottom right, #6ab7ff, #a29bfe);
+            color: #333;
+            overflow-x: hidden;
+            animation: fadeInBody 1s ease-in;
+        }
+
+        @keyframes fadeInBody {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        header {
+            background-color: rgba(255,255,255,0.2);
+            padding: 14px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        header .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 18px;
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        header .nav-links a:hover {
+            background: #f5d66a;
+            color: black;
+            border-color: #f5d66a;
+        }
+
+        .profile-box {
+            background: white;
+            width: 430px;
+            margin: 50px auto 20px auto;
+            border-radius: 25px;
+            padding: 35px 30px;
+            text-align: center;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            animation: popUp 0.9s ease-out;
+        }
+
+        @keyframes popUp {
+            from {transform: scale(0.9); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid #0984e3;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .profile-info h2 {
+            margin-top: 12px;
+            color: #2d3436;
+        }
+
+        .profile-info p {
+            color: #636e72;
+            font-size: 15px;
+            margin: 5px 0;
+        }
+
+        .favorites-title {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 26px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .favorites-container {
+            max-width: 1000px;
+            margin: 25px auto 60px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .fav-card {
+            background: white;
+            border-radius: 14px;
+            padding: 15px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .fav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .fav-card img {
+            width: 100%;
+            height: 165px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .fav-card h3 {
+            margin: 12px 0 5px 0;
+            color: #0077b6;
+            font-size: 20px;
+        }
+
+        .fav-card p {
+            font-size: 14px;
+            color: #444;
+            margin: 3px 0;
+        }
+
+        .details-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: #0984e3;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .details-btn:hover {
+            background: #74b9ff;
+        }
+
+        /* ===== REMOVE BUTTON ===== */
+        .remove-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 15px;
+            transition: 0.25s;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+            transform: scale(1.03);
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>الملف الشخصي</h1>
+
+    <div class="nav-links">
+        <a href="/home">الرئيسية</a>
+        <a href="/favorites">المفضلات</a>
+        <a href="/logout">تسجيل الخروج</a>
+    </div>
+</header>
+
+<div class="profile-box">
+    <img src="https://i.ibb.co/xY0jfZy/profile-placeholder.png" class="profile-pic">
+
+    <div class="profile-info">
+        <h2>{{ username }}</h2>
+        <p>📧 البريد الإلكتروني: {{ email }}</p>
+        <p>⭐ عدد المفضلات: {{ favorites_count }} مكان</p>
+    </div>
+</div>
+
+<h2 class="favorites-title">🌟 الأماكن المفضلة</h2>
+
+<div class="favorites-container">
+
+    {% if favorites %}
+        {% for fav in favorites %}
+            <div class="fav-card">
+
+                <img src="{{ fav.place.image_url }}" alt="{{ fav.place.name }}">
+
+                <h3>{{ fav.place.name }}</h3>
+
+                <p>🌍 الدولة: {{ fav.place.country }}</p>
+                <p>🏙️ المدينة: {{ fav.place.city }}</p>
+
+                <a href="/result/{{ fav.place.id }}/" class="details-btn">عرض التفاصيل</a>
+
+                <!-- REMOVE BUTTON -->
+                <form action="{% url 'remove_favorite' fav.place.id %}" method="POST">
+                    {% csrf_token %}
+                    <button class="remove-btn" type="submit">🗑 إزالة</button>
+                </form>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p style="grid-column: 1 / -1; color: white; font-size: 18px;">لا توجد أماكن في المفضلات بعد 😊</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

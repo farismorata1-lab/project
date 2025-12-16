@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ابحث عن وجهتك — النظام السياحي</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    :root{
+      --accent:#f5d66a;
+      --dark:#023e8a;
+    }
+    body{
+      margin:0;
+      font-family:'Cairo',sans-serif;
+      background: url('https://images.unsplash.com/photo-1518684079-3c830dcef090') center/cover no-repeat fixed;
+      min-height:100vh;
+      color:#222;
+    }
+
+    /* dark overlay but not blocking inputs */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.45);
+      z-index:0;
+      pointer-events:none; /* مهم — يسمح بالكتابة */
+    }
+
+    .container{
+      position:relative;
+      z-index:1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:20px;
+      padding:40px 20px;
+    }
+
+    .card{
+      width:100%;
+      max-width:900px;
+      background: rgba(255,255,255,0.97);
+      border-radius:14px;
+      padding:28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    h1{
+      margin:0 0 12px 0;
+      color:var(--dark);
+      text-align:center;
+      font-size:28px;
+    }
+
+    p.lead{
+      margin:0 0 18px 0;
+      color:#555;
+      text-align:center;
+    }
+
+    form .input-row{
+      display:flex;
+      gap:0;
+      align-items:center;
+    }
+
+    input[type="text"]{
+      flex:1;
+      padding:14px 16px;
+      border:1px solid #e3e6ea;
+      border-radius:10px 0 0 10px;
+      font-size:16px;
+      outline:none;
+      direction:rtl;
+    }
+
+    button.search-btn{
+      background:var(--accent);
+      border:none;
+      padding:12px 22px;
+      border-radius:0 10px 10px 0;
+      cursor:pointer;
+      font-weight:700;
+      color:#000;
+      font-size:16px;
+      transition:transform .12s;
+    }
+    button.search-btn:hover{ transform:translateY(-2px); }
+
+    /* خيارات أعلى يسار (profile / fav / logout) */
+    .top-actions{
+      display:flex;
+      gap:10px;
+      justify-content:flex-start;
+      margin-bottom:10px;
+    }
+    .top-actions a{
+      text-decoration:none;
+      color:#fff;
+      background:rgba(0,0,0,0.35);
+      padding:8px 12px;
+      border-radius:10px;
+      font-size:14px;
+    }
+
+    @media (max-width:600px){
+      h1{ font-size:22px; }
+      input[type="text"]{ font-size:15px; }
+      button.search-btn{ padding:10px 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="container">
+    <div style="width:100%; max-width:900px; display:flex; justify-content:flex-end;">
+      <!-- هذه الأزرار فوق اليسار (أو أقصى اليمين لRTL) -->
+      <div class="top-actions">
+        <a href="{% url 'profile' %}">الصفحة الشخصية</a>
+        <a href="{% url 'favorites' %}">المفضلات</a>
+        
+      </div>
+    </div>
+
+    <div class="card">
+      <h1>ابحث عن وجهتك السياحية</h1>
+      <p class="lead">اكتب اسم المكان أو المدينة أو نوع النشاط وسيقوم النظام باقتراح أفضل الوجهات.</p>
+
+      <form action="{% url 'search' %}" method="get" autocomplete="off">
+        <div class="input-row">
+          <input
+            type="text"
+            name="query"
+            id="query"
+            placeholder="مثال: الأهرامات، القاهرة، شواطئ الغردقة، تاريخ..."
+            required
+          />
+          <button class="search-btn" type="submit">🔎 ابحث</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
