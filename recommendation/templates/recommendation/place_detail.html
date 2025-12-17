@@ -2,11 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <title>{{ place.name }}</title>
-=======
     <title>{{ place.name }} – تفاصيل المكان السياحي</title>
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -26,20 +22,13 @@
 
         h1 {
             text-align: center;
-<<<<<<< HEAD
-=======
             font-size: 32px;
             font-weight: 700;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
             margin-bottom: 25px;
             color: #003566;
         }
 
-<<<<<<< HEAD
-        .box {
-=======
         .main-box {
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
             background: white;
             padding: 25px;
             border-radius: 16px;
@@ -57,19 +46,28 @@
         .info-line {
             font-size: 18px;
             margin: 10px 0;
-<<<<<<< HEAD
-=======
             color: #444;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
         }
 
         .desc {
             margin-top: 15px;
             font-size: 18px;
             line-height: 1.8;
-<<<<<<< HEAD
-=======
             color: #333;
+        }
+
+        /* الطقس */
+        .weather-box {
+            margin-top: 25px;
+            background: #e8f3ff;
+            padding: 14px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #003566;
         }
 
         /* صور إضافية */
@@ -88,20 +86,6 @@
             box-shadow: 0 3px 10px rgba(0,0,0,0.07);
         }
 
-        /* الطقس */
-        .weather-box {
-            margin-top: 25px;
-            background: #e8f3ff;
-            padding: 14px;
-            border-radius: 12px;
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            font-size: 18px;
-            font-weight: 600;
-            color: #003566;
-        }
-
         /* الخريطة */
         .map-box {
             margin-top: 25px;
@@ -112,8 +96,8 @@
             box-shadow: 0 3px 12px rgba(0,0,0,0.10);
         }
 
-        /* الأماكن المشابهة */
-        .similar-title {
+        /* العناوين الفرعية */
+        .section-title {
             font-size: 26px;
             margin-top: 35px;
             margin-bottom: 15px;
@@ -121,6 +105,7 @@
             color: #003566;
         }
 
+        /* أماكن مشابهة */
         .similar-card {
             background: #ffffff;
             padding: 12px;
@@ -143,7 +128,7 @@
         .similar-card h3 {
             font-size: 18px;
             margin: 10px 0 5px;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
+            color: #003566;
         }
 
         .back-btn {
@@ -155,11 +140,7 @@
             background: #003566;
             color: white;
             border-radius: 12px;
-<<<<<<< HEAD
-            font-size: 18px;
-=======
             font-size: 19px;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
             text-decoration: none;
         }
     </style>
@@ -171,31 +152,12 @@
 
     <h1>{{ place.name }}</h1>
 
-<<<<<<< HEAD
-    <div class="box">
-
-        <img src="{{ image_url }}" class="main-image">
-    
-        <div class="info-line">🌍 الدولة: {{ place.country }}</div>
-        <div class="info-line">🏙️ المدينة: {{ place.city }}</div>
-        <div class="info-line">🏷️ التصنيف: {{ place.category }}</div>
-        <div class="info-line">⭐ التقييم: {{ place.rating }}</div>
-    
-        <p class="desc">
-        {% if place.semantic_description_ar %}
-            {{ place.semantic_description_ar }}
-        {% else %}
-            {{ place.semantic_description }}
-        {% endif %}
-        </p>
-    
-    </div>
-    
-=======
     <div class="main-box">
 
         <!-- الصورة الرئيسية -->
+        {% if place.image_url %}
         <img src="{{ place.image_url }}" class="main-image">
+        {% endif %}
 
         <div class="info-line">🌍 <strong>الدولة:</strong> {{ place.country }}</div>
         <div class="info-line">🏙️ <strong>المدينة:</strong> {{ place.city }}</div>
@@ -203,7 +165,11 @@
         <div class="info-line">⭐ <strong>التقييم:</strong> {{ place.rating }}</div>
 
         <p class="desc">
-            {{ place.description }}
+            {% if place.semantic_description_ar %}
+                {{ place.semantic_description_ar }}
+            {% else %}
+                {{ place.semantic_description }}
+            {% endif %}
         </p>
 
         <!-- الطقس -->
@@ -216,7 +182,7 @@
 
         <!-- صور إضافية -->
         {% if place.extra_images %}
-        <h2 class="similar-title">📸 صور إضافية</h2>
+        <h2 class="section-title">📸 صور إضافية</h2>
         <div class="images-grid">
             {% for img in place.extra_images %}
                 <img src="{{ img }}">
@@ -225,7 +191,8 @@
         {% endif %}
 
         <!-- الخريطة -->
-        <h2 class="similar-title">🗺️ الموقع على الخريطة</h2>
+        {% if place.latitude and place.longitude %}
+        <h2 class="section-title">🗺️ الموقع على الخريطة</h2>
         <div class="map-box">
             <iframe
                 width="100%"
@@ -235,11 +202,11 @@
                 src="https://www.google.com/maps?q={{ place.latitude }},{{ place.longitude }}&hl=ar&z=13&output=embed">
             </iframe>
         </div>
+        {% endif %}
 
         <!-- أماكن مشابهة -->
         {% if similar %}
-        <h2 class="similar-title">✨ أماكن مشابهة</h2>
-
+        <h2 class="section-title">✨ أماكن مشابهة</h2>
         <div class="images-grid">
             {% for s in similar %}
             <a href="{% url 'place_detail' s.id %}" style="text-decoration:none; color:black;">
@@ -258,7 +225,6 @@
     <a href="/rec/search/" class="back-btn">🔙 رجوع للبحث</a>
 
 </div>
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 
 </body>
 </html>

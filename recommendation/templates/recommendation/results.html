@@ -2,11 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-<<<<<<< HEAD
-    <title>نتائج البحث</title>
-=======
     <title>نتائج البحث – نظام التوصية السياحي</title>
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -14,79 +10,48 @@
         body {
             margin: 0;
             font-family: "Cairo", sans-serif;
-<<<<<<< HEAD
-            background: #f5f7fa;
-=======
             background: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") no-repeat center center/cover;
             min-height: 100vh;
         }
 
         .glass-layer {
-            background: rgba(255, 255, 255, 0.60);
+            background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
             min-height: 100vh;
             padding: 40px 0;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
         }
 
         .container {
             width: 92%;
             max-width: 1200px;
             margin: auto;
-<<<<<<< HEAD
-            padding: 30px 0;
-=======
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
         }
 
         h1 {
             text-align: center;
-<<<<<<< HEAD
             margin-bottom: 30px;
             color: #003566;
         }
 
-        .card-link {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-=======
-            color: #002855;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 35px;
-        }
-
-        /* البطاقة القابلة للضغط */
         .result-link {
             text-decoration: none;
             color: inherit;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
+            display: block;
         }
 
         .result-card {
             display: flex;
             gap: 20px;
-<<<<<<< HEAD
-            background: #ffffff;
-            border-radius: 18px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
-=======
             background: #ffffffee;
             border-radius: 18px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 28px;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
+            margin-bottom: 25px;
             padding: 18px;
-            transition: transform .25s ease, box-shadow .25s ease;
-            cursor: pointer;
+            transition: 0.25s ease;
         }
 
         .result-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 22px rgba(0,0,0,0.15);
         }
 
         .result-image {
@@ -96,44 +61,34 @@
             object-fit: cover;
         }
 
-<<<<<<< HEAD
-        .info h2 {
-            margin: 0 0 10px;
-            font-size: 24px;
-=======
         .info {
             flex: 1;
         }
 
         .info h2 {
-            margin: 0 0 10px 0;
+            margin: 0 0 10px;
             font-size: 25px;
-            font-weight: 700;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
             color: #00509d;
         }
 
         .info-line {
             margin: 6px 0;
             font-size: 16px;
-            color: #333;
         }
 
         .desc {
             margin-top: 10px;
-<<<<<<< HEAD
             font-size: 15px;
-            color: #444;
         }
 
         .score {
             margin-top: 12px;
             display: inline-block;
-            padding: 6px 12px;
-            background: #003566;
-=======
-            line-height: 1.7;
-            color: #444;
+            padding: 7px 14px;
+            background: #002855;
+            color: white;
+            border-radius: 8px;
+            font-size: 14px;
         }
 
         .weather-box {
@@ -144,54 +99,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #003566;
         }
-
-        .score {
-            margin-top: 12px;
-            display: inline-block;
-            padding: 7px 14px;
-            background: #002855;
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
-            color: white;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-<<<<<<< HEAD
-        /* الرابط نفسه */
-/* الرابط الذي يلف الكرت */
-.card-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-    position: relative;
-    z-index: 20;          /* أعلى من أي overlay */
-    pointer-events: auto;
-}
-
-/* الكرت نفسه */
-.result-card {
-    position: relative;
-    cursor: pointer;
-    z-index: 10;
-}
-
-/* أي طبقة زجاجية أو خلفية */
-.glass-layer {
-    pointer-events: none;   /* مهم جدًا */
-}
-
-/* الكونتينر ما يمنع الضغط */
-.container {
-    pointer-events: auto;
-}
-
-
-
-=======
 
         .back-btn {
             display: block;
@@ -204,11 +112,6 @@
             border-radius: 12px;
             font-size: 18px;
             text-decoration: none;
-            transition: 0.2s ease;
-        }
-
-        .back-btn:hover {
-            background: #001d73;
         }
 
         .message {
@@ -217,124 +120,61 @@
             border-radius: 10px;
             color: #b30000;
             text-align: center;
-            font-size: 17px;
             margin-bottom: 20px;
         }
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
-
     </style>
 </head>
 
 <body>
 
-<<<<<<< HEAD
+<div class="glass-layer">
 <div class="container">
 
-    <h1>🔍 نتائج البحث</h1>
+<h1>🔍 نتائج البحث</h1>
 
-    {% for r in results %}
-
-      
-    {% if r.place_id %}
-      <a href="{% url 'place_detail' r.place_id %}" class="card-link">
-    {% else %}
-      <div class="card-link disabled">
-    {% endif %}
-  
-      <div class="result-card">
-  
-        {% if item.image_url %}
-        <img src="{{ item.image_url }}" alt="{{ item.name }}">
-      {% endif %}
-      
-      
-      
-  
-        <div class="info">
-          <h2>{{ r.name }}</h2>
-  
-          <div class="info-line">🌍 {{ r.country }}</div>
-          <div class="info-line">🏙️ {{ r.city }}</div>
-          <div class="info-line">🏷️ {{ r.category }}</div>
-          <div class="info-line">⭐ {{ r.rating }}</div>
-  
-          <div class="desc">
-            {{ r.description|slice:":120" }}...
-          </div>
-        </div>
-  
-      </div>
-  
-    {% if r.place_id %}
-      </a>
-    {% else %}
-      </div>
-    {% endif %}
-  
-  {% endfor %}
-  
-  
-    
-
-
-=======
-<div class="glass-layer">
-    <div class="container">
-
-        <h1>🔍 نتائج البحث</h1>
-
-        {% if message %}
-        <div class="message">{{ message }}</div>
-        {% endif %}
-
-        {% if results %}
-        {% for r in results %}
-
-        {% if r.place_id %}
-        <a href="{% url 'place_detail' r.place_id %}" class="result-link">
-        {% else %}
-        <a class="result-link" style="pointer-events: none; opacity: 0.6;">
-        {% endif %}
-    
-            <div class="result-card">
-    
-                <img src="{{ r.image_url }}" class="result-image">
-    
-                <div class="info">
-    
-                    <h2>{{ r.name }}</h2>
-    
-                    <div class="info-line">🌍 <strong>الدولة:</strong> {{ r.country }}</div>
-                    <div class="info-line">🏙️ <strong>المدينة:</strong> {{ r.city }}</div>
-                    <div class="info-line">🏷️ <strong>التصنيف:</strong> {{ r.category }}</div>
-                    <div class="info-line">⭐ <strong>التقييم:</strong> {{ r.rating }}</div>
-    
-                    <div class="desc"><strong>الوصف:</strong> {{ r.description|slice:":150" }}...</div>
-    
-                    {% if r.weather %}
-                    <div class="weather-box">
-                        <img src="https://openweathermap.org/img/wn/{{ r.weather.icon }}.png" width="45">
-                        🌡 {{ r.weather.temperature }}°C — {{ r.weather.description }}
-                    </div>
-                    {% endif %}
-    
-                    <div class="score">نسبة التشابه: {{ r.score|floatformat:"2" }}</div>
-    
-                </div>
-    
-            </div>
-    
-        </a>
-    
-    {% endfor %}
-    
+{% if message %}
+<div class="message">{{ message }}</div>
 {% endif %}
 
+{% for r in results %}
 
-        <a href="/" class="back-btn">🏠 العودة للرئيسية</a>
+<a href="{% if r.place_id %}{% url 'place_detail' r.place_id %}{% endif %}"
+   class="result-link"
+   {% if not r.place_id %}style="pointer-events:none;opacity:.6"{% endif %}>
 
-    </div>
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
+<div class="result-card">
+
+{% if r.image_url %}
+<img src="{{ r.image_url }}" class="result-image">
+{% endif %}
+
+<div class="info">
+<h2>{{ r.name }}</h2>
+<div class="info-line">🌍 {{ r.country }}</div>
+<div class="info-line">🏙️ {{ r.city }}</div>
+<div class="info-line">🏷️ {{ r.category }}</div>
+<div class="info-line">⭐ {{ r.rating }}</div>
+
+<div class="desc">{{ r.description|slice:":150" }}...</div>
+
+{% if r.weather %}
+<div class="weather-box">
+<img src="https://openweathermap.org/img/wn/{{ r.weather.icon }}.png" width="40">
+{{ r.weather.temperature }}°C — {{ r.weather.description }}
+</div>
+{% endif %}
+
+<div class="score">نسبة التشابه: {{ r.score|floatformat:"2" }}</div>
+</div>
+
+</div>
+</a>
+
+{% endfor %}
+
+<a href="/" class="back-btn">🏠 العودة للرئيسية</a>
+
+</div>
 </div>
 
 </body>

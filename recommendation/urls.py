@@ -17,12 +17,10 @@ urlpatterns = [
     path("favorites/", views.favorites_page, name="favorites"),
     path('result/<int:place_id>/', views.place_detail, name='place_detail'),
     path("profile/", views.profile_view, name="profile"),
-    path("favorite/remove/<int:place_id>/", views.remove_favorite, name="remove_favorite"),
-<<<<<<< HEAD
+    path("favorite/remove/<int:place_id>/", views.remove_favorite, name="remove_favorite"), 
     path("place/<int:place_id>/", views.place_detail, name="place_detail"),
 
-=======
->>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
+
     #path("test-matrix/", test_matrix, name="test_matrix"),
 
 ]
