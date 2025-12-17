@@ -1,23 +1,37 @@
 import requests
 import re
+<<<<<<< HEAD
 from django.conf import settings
 
 # مفاتيح الـ APIs
 
+=======
+
+# مفاتيح الـ APIs
+UNSPLASH_ACCESS_KEY = "sUJK0xo0kcFiRxj1I4CBtn3Q7KngvkFBv2AcTRQ_-QM"
+WEATHER_API_KEY = "b0bfefbbffcc096e5f493b2b95843cc1"
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 
 # كاش بسيط لتسريع الصور
 image_cache = {}
 
 def get_image_url(destination):
+<<<<<<< HEAD
     print("UNSPLASH KEY FROM SETTINGS =", settings.UNSPLASH_ACCESS_KEY)
 
+=======
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
     """جلب صورة من Unsplash حسب الوجهة"""
     if destination in image_cache:
         return image_cache[destination]
 
     headers = {
         "Accept-Version": "v1",
+<<<<<<< HEAD
         "Authorization": f"Client-ID {settings.UNSPLASH_ACCESS_KEY}"
+=======
+        "Authorization": f"Client-ID {UNSPLASH_ACCESS_KEY}"
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
     }
     params = {
         "query": destination,
@@ -26,6 +40,7 @@ def get_image_url(destination):
     }
 
     try:
+<<<<<<< HEAD
         response = requests.get(
             "https://api.unsplash.com/search/photos",
             headers=headers,
@@ -35,11 +50,17 @@ def get_image_url(destination):
         response.raise_for_status()
         data = response.json()
 
+=======
+        response = requests.get("https://api.unsplash.com/search/photos", headers=headers, params=params, timeout=5)
+        response.raise_for_status()
+        data = response.json()
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
         if data.get("results"):
             image_url = data["results"][0]["urls"].get("regular")
             if image_url:
                 image_cache[destination] = image_url
                 return image_url
+<<<<<<< HEAD
 
     except requests.RequestException as e:
         print(f"[UNSPLASH ERROR] {e}")
@@ -47,10 +68,19 @@ def get_image_url(destination):
     # 👇 لا صورة = لا صورة
     image_cache[destination] = None
     return None
+=======
+    except requests.RequestException as e:
+        print(f"[UNSPLASH ERROR] {e}")
+
+    fallback = "/static/images/fallback.jpg"
+    image_cache[destination] = fallback
+    return fallback
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 
 
 def get_weather(city_name):
     """جلب حالة الطقس من OpenWeatherMap"""
+<<<<<<< HEAD
     url = (
         f"http://api.openweathermap.org/data/2.5/weather"
         f"?q={city_name}"
@@ -58,6 +88,9 @@ def get_weather(city_name):
         f"&units=metric"
         f"&lang=ar"
     )
+=======
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={WEATHER_API_KEY}&units=metric&lang=ar"
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
     try:
         response = requests.get(url, timeout=5)
         response.raise_for_status()
@@ -72,7 +105,11 @@ def get_weather(city_name):
     except Exception as e:
         print(f"[WEATHER ERROR] {e}")
         return None
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 
 # -----------------------------
 # استخراج الدولة من نص البحث
@@ -149,6 +186,7 @@ def arabic_query_expand(text):
             expanded += " " + extra
 
     return expanded
+<<<<<<< HEAD
 
 # -----------------------------
 # تنظيف أسماء الأماكن داخل قاعدة البيانات
@@ -175,3 +213,5 @@ def clean_place_names():
             p.save()
             print(f"Updated: {original} → {new_name}")
 
+=======
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e

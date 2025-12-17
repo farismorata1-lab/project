@@ -103,7 +103,6 @@ def search_page(request):
 # ----------------------------
 # دالة البحث (نسخة احترافية — تتبع منطق Flask)
 # ----------------------------
-
 def search(request):
     query = request.GET.get("query", "").strip()
 

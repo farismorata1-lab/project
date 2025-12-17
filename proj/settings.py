@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -122,6 +125,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+<<<<<<< HEAD
 
 # ===== API KEYS =====
 from .config import UNSPLASH_ACCESS_KEY, WEATHER_API_KEY
@@ -129,3 +133,5 @@ from .config import UNSPLASH_ACCESS_KEY, WEATHER_API_KEY
 
 UNSPLASH_ACCESS_KEY = "sUJK0xo0kcFiRxj1I4CBtn3Q7KngvkFBv2AcTRQ_-QM"
 OPENWEATHER_API_KEY = "PUT_YOUR_OPENWEATHER_KEY_HERE"
+=======
+>>>>>>> c6dbedfcd0426253f4756291942c053308c32a0e
