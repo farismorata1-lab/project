@@ -319,6 +319,8 @@ def remove_favorite(request, place_id):
 
     return redirect("profile")
 
+# test git
+
 #def test_collab_matrix(request):
     matrix = build_user_item_matrix()
     print("User-Item Matrix:")
