@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Place(models.Model):
     # البيانات الأساسية
+    id= models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     city = models.CharField(max_length=255, blank=True)
     country = models.CharField(max_length=255, blank=True)
@@ -34,6 +35,8 @@ class Place(models.Model):
 
 
 class UserRating(models.Model):
+    id= models.AutoField(primary_key=True)
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -58,6 +61,7 @@ class UserRating(models.Model):
 
 
 class Favorite(models.Model):
+    id= models.AutoField(primary_key=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

@@ -138,7 +138,7 @@
 
 {% for r in results %}
 
-<a href="{% if r.place_id %}{% url 'place_detail' r.place_id %}{% endif %}"
+<a href={% if r.place_id %}"/place/{{ r.place_id }}"{% endif %}
    class="result-link"
    {% if not r.place_id %}style="pointer-events:none;opacity:.6"{% endif %}>
 

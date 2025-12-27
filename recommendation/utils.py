@@ -1,6 +1,8 @@
 import requests
 import re
 from django.conf import settings
+import os
+from dotenv import load_dotenv
 
 # ----------------------------------
 # كاش بسيط لتسريع الصور
@@ -19,7 +21,7 @@ def get_image_url(destination):
 
     headers = {
         "Accept-Version": "v1",
-        "Authorization": f"Client-ID {settings.UNSPLASH_ACCESS_KEY}",
+        "Authorization": f"Client-ID {os.getenv('UNSPLASH_ACCESS_KEY')}",
     }
 
     params = {
@@ -60,7 +62,7 @@ def get_weather(city_name):
     url = (
         f"http://api.openweathermap.org/data/2.5/weather"
         f"?q={city_name}"
-        f"&appid={settings.WEATHER_API_KEY}"
+        f"&appid={os.getenv('WEATHER_API_KEY')}"
         f"&units=metric"
         f"&lang=ar"
     )
