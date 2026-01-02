@@ -23,7 +23,7 @@ from django.shortcuts import redirect, get_object_or_404
 from .models import Favorite, Place
 from django.http import HttpResponse
 from django.db.models.functions import Lower
-from .utils import get_image_url, get_weather
+from .utils import get_weather 
 
 
 #from recommendation.collaborative_filtering import build_user_item_matrix
@@ -32,7 +32,7 @@ from .utils import get_image_url, get_weather
 
 
 # دوال utils (تأكد إن utils.py يحتوي على: get_image_url, get_weather, extract_country_from_input)
-from .utils import get_image_url, get_weather, extract_country_from_input ,arabic_query_expand
+from .utils import get_weather, extract_country_from_input ,arabic_query_expand
 
 # ----------------------------
 # مسارات قوية
@@ -112,7 +112,7 @@ def search(request):
             "recommendation/results.html",
             {"message": "يرجى كتابة كلمة للبحث"}
         )
-
+ 
     is_ar = is_arabic_text(query)
 
     if is_ar:
@@ -151,6 +151,9 @@ def search(request):
         country = (item.get("Country") or "").strip()
         category = (item.get("Category") or "").strip()
         rating = item.get("Rating") or 0
+        image_url=(item.get("Image url")or "").strip()
+        print(image_url)
+
 
         description = item.get("semantic_description_ar") if is_ar else item.get("semantic_description")
 
@@ -172,6 +175,7 @@ def search(request):
             "description": description,
             "score": sim,
             "place_id": place_id,
+            "image_url":place.image_url,
         })
 
     if not results:
@@ -185,11 +189,6 @@ def search(request):
     results = results[:3]
 
     for item in results:
-        img_query = f"{name} {city} {country}".strip()
-        item["image_url"] = get_image_url(img_query)
-        if not item["image_url"]:
-            item["image_url"] = "/static/img/placeholder.jpg"
-
         item["weather"] = get_weather(item["city"])
 
     return render(
@@ -265,13 +264,11 @@ def place_detail(request, place_id):
     place = get_object_or_404(Place, id=place_id)
     print("PLACE NAME:", place.name)
 
-    image_url = place.image_url or get_image_url(
-        f"{place.name} {place.city} {place.country}"
-    )
+    image_url = place.image_url 
 
     return render(request, "recommendation/place_detail.html", {
         "place": place,
-        "image_url": image_url
+
     })
 
 

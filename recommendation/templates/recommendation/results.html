@@ -144,7 +144,10 @@
 
 <div class="result-card">
 
-{% if r.image_url %}
+{% if r.image_url %} 
+<script>
+    console.log("Image URL:", "{{ r.image_url|escapejs }}");
+  </script>
 <img src="{{ r.image_url }}" class="result-image">
 {% endif %}
 

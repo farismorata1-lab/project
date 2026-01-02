@@ -12,44 +12,44 @@ image_cache = {}
 # ----------------------------------
 # جلب صورة من Unsplash
 # ----------------------------------
-def get_image_url(destination):
-    if not destination:
-        return None
+# def get_image_url(destination):
+#     if not destination:
+#         return None
 
-    if destination in image_cache:
-        return image_cache[destination]
+#     if destination in image_cache:
+#         return image_cache[destination]
 
-    headers = {
-        "Accept-Version": "v1",
-        "Authorization": f"Client-ID {os.getenv('UNSPLASH_ACCESS_KEY')}",
-    }
+#     headers = {
+#         "Accept-Version": "v1",
+#         "Authorization": f"Client-ID {os.getenv('UNSPLASH_ACCESS_KEY')}",
+#     }
 
-    params = {
-        "query": destination,
-        "per_page": 1,
-        "orientation": "landscape",
-    }
+#     params = {
+#         "query": destination,
+#         "per_page": 1,
+#         "orientation": "landscape",
+#     }
 
-    try:
-        response = requests.get(
-            "https://api.unsplash.com/search/photos",
-            headers=headers,
-            params=params,
-            timeout=5,
-        )
-        response.raise_for_status()
-        data = response.json()
+#     try:
+#         response = requests.get(
+#             "https://api.unsplash.com/search/photos",
+#             headers=headers,
+#             params=params,
+#             timeout=5,
+#         )
+#         response.raise_for_status()
+#         data = response.json()
 
-        if data.get("results"):
-            image_url = data["results"][0]["urls"]["regular"]
-            image_cache[destination] = image_url
-            return image_url
+#         if data.get("results"):
+#             image_url = data["results"][0]["urls"]["regular"]
+#             image_cache[destination] = image_url
+#             return image_url
 
-    except requests.RequestException as e:
-        print(f"[UNSPLASH ERROR] {e}")
+#     except requests.RequestException as e:
+#         print(f"[UNSPLASH ERROR] {e}")
 
-    image_cache[destination] = None
-    return None
+#     image_cache[destination] = None
+#     return None
 
 
 # ----------------------------------

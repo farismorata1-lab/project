@@ -155,7 +155,10 @@
     <div class="main-box">
 
         <!-- الصورة الرئيسية -->
-        {% if place.image_url %}
+        {% if place.image_url %} 
+        <script>
+            console.log("Image URL:", "{{ place.image_url|escapejs }}");
+        </script>
         <img src="{{ place.image_url }}" class="main-image">
         {% endif %}
 
