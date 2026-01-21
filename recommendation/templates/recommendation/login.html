@@ -1,83 +1,121 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>تسجيل الدخول</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-    body {
-      font-family: 'Cairo', sans-serif;
-      margin: 0;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      z-index: 0;
-    }
-    .login-box {
-      position: relative;
-      z-index: 1;
-      background: rgba(255,255,255,0.1);
-      padding: 40px;
-      border-radius: 15px;
-      width: 320px;
-      text-align: center;
-      backdrop-filter: blur(8px);
-    }
-    .login-box h2 {
-      margin-bottom: 20px;
-    }
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
-    button {
-      background-color: #f5d66a;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    a {
-      color: #f5d66a;
-      text-decoration: none;
-    }
-  </style>
-</head>
-<body>
-  <div class="overlay"></div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول – نظام التوصية السياحي</title>
 
-  <div class="login-box">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+    margin:0;
+    font-family:"Cairo",sans-serif;
+    height:100vh;
+    background:linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ===== LOGIN BOX ===== */
+.login-box{
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(10px);
+    width:360px;
+    padding:40px 30px;
+    border-radius:22px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    color:white;
+}
+
+.login-box h2{
+    margin-bottom:25px;
+    font-size:28px;
+    font-weight:700;
+}
+
+/* ===== INPUTS ===== */
+.login-box input{
+    width:100%;
+    padding:12px 14px;
+    margin:12px 0;
+    border-radius:12px;
+    border:none;
+    font-size:16px;
+    outline:none;
+}
+
+.login-box input::placeholder{
+    color:#666;
+}
+
+/* ===== BUTTON ===== */
+.login-box button{
+    width:100%;
+    margin-top:18px;
+    padding:12px;
+    border:none;
+    border-radius:25px;
+    background:#f5d66a;
+    font-size:18px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.login-box button:hover{
+    background:#ffe066;
+    transform:translateY(-2px);
+}
+
+/* ===== LINKS ===== */
+.login-box p{
+    margin-top:20px;
+    font-size:15px;
+}
+
+.login-box a{
+    color:#f5d66a;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.login-box a:hover{
+    text-decoration:underline;
+}
+
+/* ===== ERROR ===== */
+.error{
+    margin-top:14px;
+    color:#ffb3b3;
+    font-size:14px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
     <h2>تسجيل الدخول</h2>
 
     <form method="POST" action="{% url 'login' %}">
-      {% csrf_token %}
+        {% csrf_token %}
 
-      <input type="text" name="username" placeholder="اسم المستخدم" required>
-      <input type="password" name="password" placeholder="كلمة المرور" required>
+        <input type="text" name="username" placeholder="اسم المستخدم" required>
+        <input type="password" name="password" placeholder="كلمة المرور" required>
 
-      <button type="submit">دخول</button>
+        <button type="submit">دخول</button>
 
-      {% if error %}
-      <p style="color: #ffb3b3; margin-top: 12px;">{{ error }}</p>
-      {% endif %}
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
     </form>
 
     <p>ليس لديك حساب؟ <a href="{% url 'register' %}">إنشاء حساب</a></p>
-  </div>
+</div>
 
 </body>
 </html>

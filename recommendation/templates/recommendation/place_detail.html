@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>{{ place.name }} – تفاصيل المكان السياحي</title>
+    <title>{{ place.name }} – تفاصيل الوجهة السياحية</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -10,224 +10,254 @@
         body {
             margin: 0;
             font-family: "Cairo", sans-serif;
-            background: #f5f7fa;
+            background: #f7f9fc;
         }
 
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,.45), rgba(0,0,0,.45)),
+                        url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e")
+                        center/cover no-repeat;
+            padding: 60px 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        /* ===== CONTAINER ===== */
         .container {
             width: 92%;
             max-width: 1200px;
-            margin: auto;
-            padding: 30px 0;
+            margin: 40px auto;
         }
 
-        h1 {
-            text-align: center;
-            font-size: 32px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #003566;
+        /* ===== MAIN CARD ===== */
+        .place-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 10px 28px rgba(0,0,0,.1);
+            overflow: hidden;
         }
 
-        .main-box {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-        }
-
-        .main-image {
+        .place-card img.main-image {
             width: 100%;
-            height: 400px;
-            border-radius: 16px;
+            height: 420px;
             object-fit: cover;
-            margin-bottom: 20px;
         }
 
-        .info-line {
-            font-size: 18px;
-            margin: 10px 0;
-            color: #444;
+        .info {
+            padding: 25px;
+        }
+
+        .info h2 {
+            margin-top: 0;
+            color: #023e8a;
+        }
+
+        .meta {
+            font-size: 17px;
+            margin: 6px 0;
         }
 
         .desc {
             margin-top: 15px;
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1.8;
             color: #333;
         }
 
-        /* الطقس */
-        .weather-box {
-            margin-top: 25px;
+        .weather {
+            margin-top: 15px;
             background: #e8f3ff;
-            padding: 14px;
-            border-radius: 12px;
+            padding: 10px;
+            border-radius: 10px;
             display: inline-flex;
             align-items: center;
-            gap: 14px;
-            font-size: 18px;
+            gap: 10px;
             font-weight: 600;
-            color: #003566;
         }
 
-        /* صور إضافية */
+        /* ===== EXTRA IMAGES ===== */
+        .section-title {
+            margin: 40px 0 15px;
+            font-size: 26px;
+            color: #023e8a;
+            font-weight: 700;
+        }
+
         .images-grid {
-            margin-top: 25px;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
         .images-grid img {
             width: 100%;
             height: 180px;
-            border-radius: 12px;
+            border-radius: 14px;
             object-fit: cover;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
         }
 
-        /* الخريطة */
+        /* ===== MAP ===== */
         .map-box {
-            margin-top: 25px;
+            margin-top: 20px;
             width: 100%;
-            height: 350px;
+            height: 360px;
             border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+            box-shadow: 0 6px 18px rgba(0,0,0,.1);
         }
 
-        /* العناوين الفرعية */
-        .section-title {
-            font-size: 26px;
-            margin-top: 35px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            color: #003566;
+        /* ===== SIMILAR PLACES ===== */
+        .similar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
         }
 
-        /* أماكن مشابهة */
         .similar-card {
-            background: #ffffff;
-            padding: 12px;
-            border-radius: 14px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            transition: .2s ease;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.1);
+            overflow: hidden;
+            transition: .3s;
         }
 
         .similar-card:hover {
-            transform: translateY(-4px);
+            transform: translateY(-6px);
         }
 
         .similar-card img {
             width: 100%;
-            height: 160px;
-            border-radius: 12px;
+            height: 180px;
             object-fit: cover;
         }
 
+        .similar-card .s-info {
+            padding: 14px;
+        }
+
         .similar-card h3 {
-            font-size: 18px;
-            margin: 10px 0 5px;
-            color: #003566;
+            margin: 0 0 6px;
+            color: #023e8a;
         }
 
         .back-btn {
             display: block;
-            width: 250px;
-            margin: 35px auto 0;
+            width: 260px;
+            margin: 50px auto;
             padding: 15px;
+            background: #023e8a;
+            color: #fff;
             text-align: center;
-            background: #003566;
-            color: white;
-            border-radius: 12px;
-            font-size: 19px;
+            border-radius: 14px;
+            font-size: 18px;
             text-decoration: none;
+        }
+
+        footer {
+            background: #022b63;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
         }
     </style>
 </head>
 
 <body>
 
+<!-- HERO -->
+<div class="hero">
+    <h1>{{ place.name }}</h1>
+</div>
+
+<!-- CONTENT -->
 <div class="container">
 
-    <h1>{{ place.name }}</h1>
+<div class="place-card">
 
-    <div class="main-box">
+    {% if place.image_url %}
+    <img src="{{ place.image_url }}" class="main-image">
+    {% endif %}
 
-        <!-- الصورة الرئيسية -->
-        {% if place.image_url %} 
-        <script>
-            console.log("Image URL:", "{{ place.image_url|escapejs }}");
-        </script>
-        <img src="{{ place.image_url }}" class="main-image">
-        {% endif %}
+    <div class="info">
+        <h2>{{ place.name }}</h2>
 
-        <div class="info-line">🌍 <strong>الدولة:</strong> {{ place.country }}</div>
-        <div class="info-line">🏙️ <strong>المدينة:</strong> {{ place.city }}</div>
-        <div class="info-line">🏷️ <strong>التصنيف:</strong> {{ place.category }}</div>
-        <div class="info-line">⭐ <strong>التقييم:</strong> {{ place.rating }}</div>
+        <div class="meta">🌍 {{ place.country }} – {{ place.city }}</div>
+        <div class="meta">🏷️ {{ place.category }}</div>
+        <div class="meta">⭐ {{ place.rating }}</div>
 
-        <p class="desc">
+        <div class="desc">
             {% if place.semantic_description_ar %}
                 {{ place.semantic_description_ar }}
             {% else %}
                 {{ place.semantic_description }}
             {% endif %}
-        </p>
+        </div>
 
-        <!-- الطقس -->
         {% if place.weather %}
-        <div class="weather-box">
-            <img src="https://openweathermap.org/img/wn/{{ place.weather.icon }}.png" width="50">
+        <div class="weather">
+            <img src="https://openweathermap.org/img/wn/{{ place.weather.icon }}.png" width="40">
             {{ place.weather.temperature }}°C — {{ place.weather.description }}
         </div>
         {% endif %}
-
-        <!-- صور إضافية -->
-        {% if place.extra_images %}
-        <h2 class="section-title">📸 صور إضافية</h2>
-        <div class="images-grid">
-            {% for img in place.extra_images %}
-                <img src="{{ img }}">
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <!-- الخريطة -->
-        {% if place.latitude and place.longitude %}
-        <h2 class="section-title">🗺️ الموقع على الخريطة</h2>
-        <div class="map-box">
-            <iframe
-                width="100%"
-                height="100%"
-                frameborder="0"
-                style="border:0"
-                src="https://www.google.com/maps?q={{ place.latitude }},{{ place.longitude }}&hl=ar&z=13&output=embed">
-            </iframe>
-        </div>
-        {% endif %}
-
-        <!-- أماكن مشابهة -->
-        {% if similar %}
-        <h2 class="section-title">✨ أماكن مشابهة</h2>
-        <div class="images-grid">
-            {% for s in similar %}
-            <a href="{% url 'place_detail' s.id %}" style="text-decoration:none; color:black;">
-                <div class="similar-card">
-                    <img src="{{ s.image_url }}">
-                    <h3>{{ s.name }}</h3>
-                    <p style="font-size:14px; color:#444;">{{ s.country }}</p>
-                </div>
-            </a>
-            {% endfor %}
-        </div>
-        {% endif %}
-
     </div>
 
-    <a href="/rec/search/" class="back-btn">🔙 رجوع للبحث</a>
+</div>
+
+<!-- EXTRA IMAGES -->
+{% if place.extra_images %}
+<h2 class="section-title">📸 صور إضافية</h2>
+<div class="images-grid">
+    {% for img in place.extra_images %}
+        <img src="{{ img }}">
+    {% endfor %}
+</div>
+{% endif %}
+
+<!-- MAP -->
+{% if place.latitude and place.longitude %}
+<h2 class="section-title">🗺️ الموقع على الخريطة</h2>
+<div class="map-box">
+    <iframe
+        src="https://www.google.com/maps?q={{ place.latitude }},{{ place.longitude }}&hl=ar&z=13&output=embed"
+        width="100%" height="100%" frameborder="0">
+    </iframe>
+</div>
+{% endif %}
+
+<!-- SIMILAR PLACES -->
+{% if similar %}
+<h2 class="section-title">✨ أماكن مشابهة</h2>
+<div class="similar-grid">
+{% for s in similar|slice:":3" %}
+<a href="{% url 'place_detail' s.id %}" style="text-decoration:none;color:inherit;">
+<div class="similar-card">
+    <img src="{{ s.image_url }}">
+    <div class="s-info">
+        <h3>{{ s.name }}</h3>
+        <p style="font-size:14px;color:#555;">{{ s.country }}</p>
+    </div>
+</div>
+</a>
+{% endfor %}
+</div>
+{% endif %}
+
+<a href="/rec/search/" class="back-btn">🔙 العودة لنتائج البحث</a>
 
 </div>
+
+<footer>
+    الشروط والأحكام • سياسة الخصوصية<br>
+    <small>تطوير: فارس النذير & مجتبى أحمد</small>
+</footer>
 
 </body>
 </html>

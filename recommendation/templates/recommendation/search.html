@@ -3,144 +3,275 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ابحث عن وجهتك — النظام السياحي</title>
+  <title>البحث السياحي | Tourism Recommender</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
     :root{
+      --primary:#023e8a;
       --accent:#f5d66a;
-      --dark:#023e8a;
+      --bg:#f7f9fc;
     }
+
     body{
       margin:0;
       font-family:'Cairo',sans-serif;
-      background: url('https://images.unsplash.com/photo-1518684079-3c830dcef090') center/cover no-repeat fixed;
-      min-height:100vh;
+      background:var(--bg);
       color:#222;
     }
 
-    /* dark overlay but not blocking inputs */
-    .overlay{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,0.45);
-      z-index:0;
-      pointer-events:none; /* مهم — يسمح بالكتابة */
-    }
-
-    .container{
-      position:relative;
-      z-index:1;
+    /* ===== Navbar ===== */
+    .navbar{
+      background:#fff;
       display:flex;
-      flex-direction:column;
       align-items:center;
-      gap:20px;
-      padding:40px 20px;
+      justify-content:space-between;
+      padding:12px 28px;
+      box-shadow:0 4px 14px rgba(0,0,0,.08);
+      position:sticky;
+      top:0;
+      z-index:100;
     }
-
-    .card{
-      width:100%;
-      max-width:900px;
-      background: rgba(255,255,255,0.97);
-      border-radius:14px;
-      padding:28px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    }
-
-    h1{
-      margin:0 0 12px 0;
-      color:var(--dark);
-      text-align:center;
-      font-size:28px;
-    }
-
-    p.lead{
-      margin:0 0 18px 0;
-      color:#555;
-      text-align:center;
-    }
-
-    form .input-row{
-      display:flex;
-      gap:0;
-      align-items:center;
-    }
-
-    input[type="text"]{
-      flex:1;
-      padding:14px 16px;
-      border:1px solid #e3e6ea;
-      border-radius:10px 0 0 10px;
-      font-size:16px;
-      outline:none;
-      direction:rtl;
-    }
-
-    button.search-btn{
-      background:var(--accent);
-      border:none;
-      padding:12px 22px;
-      border-radius:0 10px 10px 0;
-      cursor:pointer;
+    .logo{
       font-weight:700;
-      color:#000;
-      font-size:16px;
-      transition:transform .12s;
+      font-size:20px;
+      color:var(--primary);
     }
-    button.search-btn:hover{ transform:translateY(-2px); }
+    .nav-links a{
+      margin:0 10px;
+      text-decoration:none;
+      color:#444;
+      font-weight:600;
+    }
+    .nav-links a:hover{ color:var(--primary); }
 
-    /* خيارات أعلى يسار (profile / fav / logout) */
-    .top-actions{
-      display:flex;
-      gap:10px;
-      justify-content:flex-start;
+    /* ===== Hero ===== */
+    .hero{
+      background:
+        linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+        url("https://images.unsplash.com/photo-1501785888041-af3ef285b470");
+      background-size:cover;
+      background-position:center;
+      padding:60px 30px;
+      text-align:center;
+      color:#fff;
+    }
+    .hero h1{
+      font-size:36px;
       margin-bottom:10px;
     }
-    .top-actions a{
-      text-decoration:none;
-      color:#fff;
-      background:rgba(0,0,0,0.35);
-      padding:8px 12px;
-      border-radius:10px;
-      font-size:14px;
+
+    /* ===== Layout ===== */
+    .layout{
+      display:grid;
+      grid-template-columns:260px 1fr;
+      gap:24px;
+      padding:30px;
     }
 
-    @media (max-width:600px){
-      h1{ font-size:22px; }
-      input[type="text"]{ font-size:15px; }
-      button.search-btn{ padding:10px 14px; }
+    /* ===== Filters ===== */
+    .filters{
+      background:#fff;
+      border-radius:14px;
+      padding:20px;
+      box-shadow:0 6px 20px rgba(0,0,0,.08);
+      height:fit-content;
+    }
+    .filters h3{
+      margin-top:0;
+      color:var(--primary);
+      font-size:18px;
+    }
+    .filter-item{
+      margin:12px 0;
+    }
+
+    /* ===== Search Box ===== */
+    .search-box{
+      background:#fff;
+      border-radius:16px;
+      padding:30px;
+      box-shadow:0 10px 28px rgba(0,0,0,.1);
+      margin-bottom:28px;
+    }
+    .search-box h1{
+      margin-top:0;
+      color:var(--primary);
+    }
+    .search-input{
+      display:flex;
+      margin-top:16px;
+    }
+    .search-input input{
+      flex:1;
+      padding:14px;
+      border:1px solid #ddd;
+      border-radius:10px 0 0 10px;
+      font-size:16px;
+    }
+    .search-input button{
+      background:var(--accent);
+      border:none;
+      padding:0 26px;
+      font-size:16px;
+      font-weight:700;
+      border-radius:0 10px 10px 0;
+      cursor:pointer;
+    }
+
+    /* ===== Cards ===== */
+    .recommendations h2{
+      color:var(--primary);
+      margin-bottom:14px;
+    }
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
+    .card{
+      background:#fff;
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 8px 22px rgba(0,0,0,.1);
+      transition:.3s;
+    }
+    .card:hover{ transform:translateY(-6px); }
+    .card img{
+      width:100%;
+      height:150px;
+      object-fit:cover;
+    }
+    .card .info{
+      padding:14px;
+    }
+
+    footer{
+      margin-top:40px;
+      background:#022b63;
+      color:#fff;
+      padding:24px;
+      text-align:center;
+    }
+
+    @media(max-width:900px){
+      .layout{ grid-template-columns:1fr; }
     }
   </style>
 </head>
+
 <body>
-  <div class="overlay"></div>
 
-  <div class="container">
-    <div style="width:100%; max-width:900px; display:flex; justify-content:flex-end;">
-      <!-- هذه الأزرار فوق اليسار (أو أقصى اليمين لRTL) -->
-      <div class="top-actions">
-        <a href="{% url 'profile' %}">الصفحة الشخصية</a>
-        <a href="{% url 'favorites' %}">المفضلات</a>
-        
-      </div>
+<!-- Navbar -->
+<div class="navbar">
+  <div class="logo">Tourism Recommender</div>
+  <div class="nav-links">
+    <a href="{% url 'home' %}">الرئيسية</a>
+    <a href="{% url 'favorites' %}">المفضلة</a>
+    <a href="{% url 'login' %}">تسجيل الدخول</a>
+    <a href="{% url 'register' %}">إنشاء حساب</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <h1>نظام التوصية السياحي الذكي</h1>
+  <p>اكتشف أفضل الوجهات السياحية بناءً على اهتماماتك</p>
+</div>
+
+<!-- Layout -->
+<div class="layout">
+
+  <!-- Filters -->
+  <aside class="filters">
+    <h3>تصفية النتائج</h3>
+    <div class="filter-item">
+      <label><input type="checkbox" name="top_rated"> الأعلى تقييماً</label>
     </div>
+    <div class="filter-item">
+      <label><input type="checkbox" name="most_visited"> الأكثر زيارة</label>
+    </div>
+  </aside>
 
-    <div class="card">
+  <!-- Main -->
+  <main>
+
+    <!-- ✅ SEARCH FORM (FIXED) -->
+    <section class="search-box">
       <h1>ابحث عن وجهتك السياحية</h1>
-      <p class="lead">اكتب اسم المكان أو المدينة أو نوع النشاط وسيقوم النظام باقتراح أفضل الوجهات.</p>
+      <p>اكتب اسم المدينة أو المكان أو نوع النشاط</p>
 
-      <form action="{% url 'search' %}" method="get" autocomplete="off">
-        <div class="input-row">
+      <form method="get" action="{% url 'search' %}">
+        <div class="search-input">
           <input
             type="text"
             name="query"
-            id="query"
-            placeholder="مثال: الأهرامات، القاهرة، شواطئ الغردقة، تاريخ..."
+            placeholder="مثال: الأهرامات، شواطئ، متاحف..."
             required
-          />
-          <button class="search-btn" type="submit">🔎 ابحث</button>
+          >
+          <button type="submit">بحث</button>
         </div>
       </form>
-    </div>
-  </div>
+    </section>
+
+    <!-- Recommendations -->
+    <section class="recommendations">
+      <h2>أفضل 5 وجهات مقترحة</h2>
+    
+      <div class="cards">
+    
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1548013146-72479768bada">
+          <div class="info">
+            <h4>الأهرامات</h4>
+            <span>تاريخية • مصر</span>
+          </div>
+        </div>
+    
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e">
+          <div class="info">
+            <h4>المالديف</h4>
+            <span>شاطئية • استرخاء</span>
+          </div>
+        </div>
+    
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1">
+          <div class="info">
+            <h4>روما</h4>
+            <span>ثقافة • تاريخ</span>
+          </div>
+        </div>
+    
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34">
+          <div class="info">
+            <h4>باريس</h4>
+            <span>رومانسية • سياحة</span>
+          </div>
+        </div>
+    
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+          <div class="info">
+            <h4>دبي</h4>
+            <span>عصرية • تسوق</span>
+          </div>
+        </div>
+    
+      </div>
+    </section>
+    
+
+  </main>
+</div>
+
+<footer>
+  الشروط والأحكام • سياسة الخصوصية
+  <small>تطوير: فارس النذير & مجتبى أحمد</small>
+</footer>
+
 </body>
 </html>

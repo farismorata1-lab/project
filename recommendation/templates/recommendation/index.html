@@ -1,104 +1,119 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نظام التوصية السياحي</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام التوصية السياحي</title>
 
-    body {
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
-      height: 100vh;
-      color: white;
-      display: flex;
-      flex-direction: column;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
-    .overlay {
-      background: rgba(0, 0, 0, 0.55);
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-    }
+<style>
+body{
+    margin:0;
+    font-family:'Cairo',sans-serif;
+    height:100vh;
+    background:
+    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+    color:white;
+    display:flex;
+    flex-direction:column;
+}
 
-    header {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 20px 50px;
-      position: relative;
-      z-index: 1;
-    }
+/* ===== HEADER ===== */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 60px;
+}
 
-    header a {
-      color: white;
-      text-decoration: none;
-      margin-left: 25px;
-      font-weight: 500;
-      border: 1px solid white;
-      padding: 8px 20px;
-      border-radius: 25px;
-      transition: 0.3s;
-    }
+.logo{
+    font-size:22px;
+    font-weight:700;
+    letter-spacing:1px;
+}
 
-    header a:hover {
-      background-color: #f5d66a;
-      color: black;
-    }
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    margin-right:18px;
+    padding:8px 22px;
+    border-radius:25px;
+    border:1px solid rgba(255,255,255,.7);
+    transition:.3s;
+    font-size:15px;
+}
 
-    .content {
-      text-align: center;
-      margin: auto;
-      position: relative;
-      z-index: 1;
-    }
+.nav-links a:hover{
+    background:#f5d66a;
+    color:black;
+    border-color:#f5d66a;
+}
 
-    .content h1 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 15px;
-    }
+/* ===== CONTENT ===== */
+.content{
+    margin:auto;
+    text-align:center;
+    max-width:800px;
+    padding:20px;
+}
 
-    .content p {
-      font-size: 18px;
-      color: #ddd;
-      margin-bottom: 35px;
-    }
+.content h1{
+    font-size:48px;
+    font-weight:700;
+    margin-bottom:18px;
+}
 
-    .btn {
-      background-color: #f5d66a;
-      color: black;
-      padding: 14px 40px;
-      border: none;
-      border-radius: 30px;
-      font-size: 18px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-decoration: none;
-    }
+.content p{
+    font-size:20px;
+    color:#e0e0e0;
+    margin-bottom:40px;
+    line-height:1.7;
+}
 
-    .btn:hover {
-      background-color: #ffea96;
-      transform: scale(1.05);
-    }
-  </style>
+/* ===== BUTTON ===== */
+.btn{
+    background:#f5d66a;
+    color:black;
+    padding:15px 45px;
+    border-radius:35px;
+    font-size:19px;
+    font-weight:600;
+    text-decoration:none;
+    transition:.3s;
+    display:inline-block;
+}
+
+.btn:hover{
+    background:#ffe066;
+    transform:translateY(-3px);
+}
+</style>
 </head>
+
 <body>
-  <div class="overlay"></div>
 
-  <header>
-    <a href="{% url 'login' %}">تسجيل الدخول</a>
-    <a href="{% url 'register' %}">إنشاء حساب</a>
-  </header>
+<header>
+    <div class="logo">🌍 Tourism Recommender</div>
 
-  <div class="content">
+    <div class="nav-links">
+        <a href="{% url 'login' %}">تسجيل الدخول</a>
+        <a href="{% url 'register' %}">إنشاء حساب</a>
+    </div>
+</header>
+
+<div class="content">
     <h1>مرحباً بك في نظام التوصية السياحي</h1>
-    <p>اكتشف أجمل الوجهات حول العالم باستخدام الذكاء الاصطناعي</p>
-    <a href="{% url 'search_page' %}" class="btn">ابدأ رحلتك</a>
-  </div>
+    <p>
+        اكتشف أجمل الوجهات السياحية حول العالم باستخدام  
+        تقنيات الذكاء الاصطناعي والتوصية الذكية
+    </p>
+
+    <a href="{% url 'search_page' %}" class="btn">
+        🚀 ابدأ رحلتك
+    </a>
+</div>
+
 </body>
 </html>

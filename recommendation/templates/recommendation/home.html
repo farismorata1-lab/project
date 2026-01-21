@@ -1,55 +1,92 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام التوصية السياحي</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام التوصية السياحي</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body {
-            background: #f5f7fa;
-            font-family: "Tajawal", sans-serif;
-        }
-        .search-box {
-            max-width: 600px;
-            margin: 120px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 18px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-        }
-        input[type="text"] {
-            height: 50px;
-            font-size: 18px;
-        }
-        .btn-search {
-            height: 50px;
-            font-size: 18px;
-        }
-    </style>
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
+<style>
+body{
+    margin:0;
+    font-family:"Cairo",sans-serif;
+    background:#f5f7fa;
+}
+
+/* ===== HERO ===== */
+.hero{
+    height:100vh;
+    background:linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
+    url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e") center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:white;
+    padding:20px;
+}
+
+/* ===== SEARCH BOX ===== */
+.search-box{
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+    padding:45px 35px;
+    border-radius:22px;
+    width:100%;
+    max-width:620px;
+    box-shadow:0 10px 35px rgba(0,0,0,.35);
+}
+
+.search-box h2{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+/* ===== INPUT ===== */
+.search-box input{
+    height:52px;
+    font-size:18px;
+    border-radius:14px;
+}
+
+.btn-search{
+    height:52px;
+    font-size:18px;
+    border-radius:14px;
+    padding:0 28px;
+}
+</style>
 </head>
+
 <body>
 
-<div class="container">
-    <div class="search-box text-center">
-        <h2 class="mb-4">ابحث عن وجهتك السياحية</h2>
+<!-- HERO -->
+<div class="hero">
+    <div class="search-box">
+
+        <h2>🔍 ابحث عن وجهتك السياحية</h2>
 
         <form action="{% url 'search' %}" method="get">
             <div class="input-group">
                 <input 
-                    type="text" 
+                    type="text"
                     class="form-control"
                     name="query"
-                    placeholder="اكتب اسم المكان…"
+                    placeholder="اكتب اسم المكان أو النشاط…"
                     required
                 >
-                <button class="btn btn-primary btn-search" type="submit">بحث</button>
+                <button class="btn btn-primary btn-search" type="submit">
+                    بحث
+                </button>
             </div>
         </form>
+
     </div>
 </div>
 
